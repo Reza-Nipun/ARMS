@@ -54,11 +54,12 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <br />
-                        <button class="btn btn-primary">SEARCH</button>
+                        <button class="btn btn-primary" onclick="getFilterDocument()">SEARCH</button>
                     </div>
                 </div>
             </div>
         </div>
+
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
@@ -95,7 +96,7 @@
                             <th class="text-center">Action</th>
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="tbody_id">
                         @if(count($documents) > 0)
                             @foreach($documents as $d)
                                 <tr>
@@ -153,3 +154,16 @@
         </div>
     {{--</div>--}}
 @endsection
+
+<script type="text/javascript">
+    function getFilterDocument() {
+        var item_name = $("#item_name").val();
+        var unit = $("#unit").val();
+        var department = $("#department").val();
+        var service_type = $("#service_type").val();
+        var from_date = $("#from_date").val();
+        var to_date = $("#to_date").val();
+
+
+    }
+</script>

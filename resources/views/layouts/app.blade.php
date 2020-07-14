@@ -45,7 +45,7 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item border">
-                                <a class="nav-link" href="{{ url('/api') }}">{{ __('Documents') }}</a>
+                                <a class="nav-link" href="{{ url('/api') }}" target="_blank">{{ __('Documents') }}</a>
                             </li>
                             <li class="nav-item border">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
