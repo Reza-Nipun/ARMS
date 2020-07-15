@@ -167,7 +167,7 @@
 
                                     @if($document->file != '')
                                         <input type="hidden" name="previous_file" id="previous_file" value="{{ $document->file }}">
-                                        <a href="{{ asset('/public/storage/attachments/').'/'.$document->file }}" target="_blank">
+                                        <a href="{{ asset('/public/storage/attachments').'/'.$document->file }}" target="_blank">
                                             Download/View
                                         </a>
                                     @endif

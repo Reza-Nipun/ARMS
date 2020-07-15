@@ -60,6 +60,9 @@
                                 <a class="nav-link" href="{{ url('/documents') }}">Documents <span class="sr-only">(current)</span></a>
                             </li>
                             <li class="nav-item border">
+                                <a class="nav-link" href="{{ url('/users') }}">Users</a>
+                            </li>
+                            <li class="nav-item border">
                                 <a class="nav-link" href="{{ url('/units') }}">Units</a>
                             </li>
                             <li class="nav-item border">
