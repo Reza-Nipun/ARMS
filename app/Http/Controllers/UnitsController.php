@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 use App\Unit;
 use DB;
 
@@ -21,8 +23,12 @@ class UnitsController extends Controller
 
     public function index()
     {
+        $user = Auth::user();
+
+        $user_unit = $user->unit_id;
+
         $units = Unit::all();
-        return view('units.index')->with('units', $units);
+        return view('units.index')->with('units', $units)->with('user_unit', $user_unit);
     }
 
     /**

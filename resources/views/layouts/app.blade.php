@@ -59,6 +59,7 @@
                             <li class="nav-item active border">
                                 <a class="nav-link" href="{{ url('/documents') }}">Documents <span class="sr-only">(current)</span></a>
                             </li>
+                        @if($user_unit == 0)
                             <li class="nav-item border">
                                 <a class="nav-link" href="{{ url('/users') }}">Users</a>
                             </li>
@@ -71,6 +72,7 @@
                             <li class="nav-item border">
                                 <a class="nav-link" href="{{ url('/service_types') }}">Service Types</a>
                             </li>
+                        @endif
                             <li class="nav-item border dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>

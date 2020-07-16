@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 use App\ServiceType;
 use DB;
 
@@ -21,8 +23,12 @@ class ServiceTypesController extends Controller
 
     public function index()
     {
+        $user = Auth::user();
+
+        $user_unit = $user->unit_id;
+
         $service_types = ServiceType::all();
-        return view('service_types.index')->with('service_types', $service_types);
+        return view('service_types.index')->with('service_types', $service_types)->with('user_unit', $user_unit);
     }
 
     /**

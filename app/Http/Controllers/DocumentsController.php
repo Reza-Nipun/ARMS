@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
+
 use App\Document;
 use App\ServiceType;
 use App\Unit;
@@ -25,6 +27,9 @@ class DocumentsController extends Controller
 
     public function index()
     {
+        $user = Auth::user();
+
+        $user_unit = $user->unit_id;
 
         $documents = DB::table('documents')
                     ->leftJoin('units', 'units.id', '=', 'documents.unit_id')
@@ -33,7 +38,7 @@ class DocumentsController extends Controller
                     ->select('documents.*', 'units.name as unit', 'departments.name as department', 'service_types.name as service_type')
                     ->paginate(10);
 
-        return view('home')->with('documents', $documents);
+        return view('home')->with('documents', $documents)->with('user_unit', $user_unit);
     }
 
     /**

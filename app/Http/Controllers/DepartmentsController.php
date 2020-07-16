@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 use App\Department;
 use DB;
 
@@ -21,8 +23,12 @@ class DepartmentsController extends Controller
 
     public function index()
     {
+        $user = Auth::user();
+
+        $user_unit = $user->unit_id;
+
         $departments = Department::all();
-        return view('departments.index')->with('departments', $departments);
+        return view('departments.index')->with('departments', $departments)->with('user_unit', $user_unit);
     }
 
     /**

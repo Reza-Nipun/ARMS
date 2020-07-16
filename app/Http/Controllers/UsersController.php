@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 use App\User;
 use App\Unit;
@@ -35,13 +36,18 @@ class UsersController extends Controller
 
     public function index()
     {
+        $user = Auth::user();
+
+        $user_unit = $user->unit_id;
+
         $users = DB::table('users')
             ->leftJoin('units', 'units.id', '=', 'users.unit_id')
             ->leftJoin('departments', 'departments.id', '=', 'users.department_id')
             ->select('users.*', 'units.name as unit', 'departments.name as department')
+            ->where('users.unit_id', '<>', '0')
             ->paginate(10);
 
-        return view('users.index')->with('users', $users);
+        return view('users.index')->with('users', $users)->with('user_unit', $user_unit);
     }
 
     /**
@@ -125,6 +131,11 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // delete
+        $user = User::find($id);
+        $user->delete();
+
+        // redirect
+        return Redirect::to('users')->with('message', 'User Deleted!');
     }
 }
