@@ -24,7 +24,6 @@ class UnitsController extends Controller
     public function index()
     {
         $user = Auth::user();
-
         $user_unit = $user->unit_id;
 
         $units = Unit::all();
@@ -38,7 +37,10 @@ class UnitsController extends Controller
      */
     public function create()
     {
-        return view('units.create');
+        $user = Auth::user();
+        $user_unit = $user->unit_id;
+
+        return view('units.create')->with('user_unit', $user_unit);
     }
 
     /**
@@ -82,8 +84,11 @@ class UnitsController extends Controller
      */
     public function edit($id)
     {
+        $user = Auth::user();
+        $user_unit = $user->unit_id;
+
         $unit = Unit::find($id);
-        return view('units.edit')->with('unit', $unit);
+        return view('units.edit')->with('unit', $unit)->with('user_unit', $user_unit);
     }
 
     /**

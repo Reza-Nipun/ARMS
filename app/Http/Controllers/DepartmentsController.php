@@ -24,7 +24,6 @@ class DepartmentsController extends Controller
     public function index()
     {
         $user = Auth::user();
-
         $user_unit = $user->unit_id;
 
         $departments = Department::all();
@@ -38,7 +37,10 @@ class DepartmentsController extends Controller
      */
     public function create()
     {
-        return view('departments.create');
+        $user = Auth::user();
+        $user_unit = $user->unit_id;
+
+        return view('departments.create')->with('user_unit', $user_unit);
     }
 
     /**
@@ -82,8 +84,11 @@ class DepartmentsController extends Controller
      */
     public function edit($id)
     {
+        $user = Auth::user();
+        $user_unit = $user->unit_id;
+
         $department = Department::find($id);
-        return view('departments.edit')->with('department', $department);
+        return view('departments.edit')->with('department', $department)->with('user_unit', $user_unit);
     }
 
     /**

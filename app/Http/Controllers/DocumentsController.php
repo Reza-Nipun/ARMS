@@ -145,12 +145,15 @@ class DocumentsController extends Controller
      */
     public function edit($id)
     {
+        $user = Auth::user();
+        $user_unit = $user->unit_id;
+
         $document = Document::find($id);
         $service_types = ServiceType::all();
         $units = Unit::all();
         $departments = Department::all();
 
-        return view('documents.edit')->with('document', $document)->with('service_types', $service_types)->with('units', $units)->with('departments', $departments);
+        return view('documents.edit')->with('document', $document)->with('service_types', $service_types)->with('units', $units)->with('departments', $departments)->with('user_unit', $user_unit);
     }
 
     /**
@@ -162,17 +165,29 @@ class DocumentsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $rules = array(
-            'item_name' => 'required',
-            'service_type_id' => 'required',
-            'unit_id' => 'required',
-            'department_id' => 'required',
-            'user' => 'required',
-            'last_renewal_date' => 'required',
-            'next_renewal_date' => 'required',
-            'amount' => 'required',
-            'file' => 'max:2048'
-        );
+        $user = Auth::user();
+        $user_unit = $user->unit_id;
+
+        if($user_unit == 0){
+            $rules = array(
+                'item_name' => 'required',
+                'service_type_id' => 'required',
+                'unit_id' => 'required',
+                'department_id' => 'required',
+                'user' => 'required',
+                'last_renewal_date' => 'required',
+                'next_renewal_date' => 'required',
+                'amount' => 'required',
+                'file' => 'max:2048'
+            );
+        }else{
+            $rules = array(
+                'last_renewal_date' => 'required',
+                'next_renewal_date' => 'required',
+                'file' => 'max:2048'
+            );
+        }
+
         $customMessages = array(
             'item_name.required' => 'Item Name is required.',
             'service_type_id.required' => 'Service Type is required.',
@@ -202,32 +217,53 @@ class DocumentsController extends Controller
         }
 
         $documents = Document::find($id);
-        $documents->item_name = $request->input('item_name');
-        $documents->service_type_id = $request->input('service_type_id');
-        $documents->brand = $request->input('brand');
-        $documents->model = $request->input('model');
-        $documents->serial_no = $request->input('serial_no');
-        $documents->unit_id = $request->input('unit_id');
-        $documents->department_id = $request->input('department_id');
-        $documents->user = $request->input('user');
-        $documents->original_placement_location = $request->input('original_placement_location');
-        $documents->original_document_location = $request->input('original_document_location');
-        $documents->last_renewal_date = $request->input('last_renewal_date');
-        $documents->next_renewal_date = $request->input('next_renewal_date');
-        $documents->vendor = $request->input('vendor');
-        $documents->amount = $request->input('amount');
-        $documents->remarks = $request->input('remarks');
 
-        $previous_file = $request->input('previous_file');
+        if($user_unit == 0) {
+            $documents->item_name = $request->input('item_name');
+            $documents->service_type_id = $request->input('service_type_id');
+            $documents->brand = $request->input('brand');
+            $documents->model = $request->input('model');
+            $documents->serial_no = $request->input('serial_no');
+            $documents->unit_id = $request->input('unit_id');
+            $documents->department_id = $request->input('department_id');
+            $documents->user = $request->input('user');
+            $documents->original_placement_location = $request->input('original_placement_location');
+            $documents->original_document_location = $request->input('original_document_location');
+            $documents->last_renewal_date = $request->input('last_renewal_date');
+            $documents->next_renewal_date = $request->input('next_renewal_date');
+            $documents->vendor = $request->input('vendor');
+            $documents->amount = $request->input('amount');
+            $documents->remarks = $request->input('remarks');
 
-        if($request->hasFile('file')){
+            $previous_file = $request->input('previous_file');
 
-            if($previous_file != ''){
-                // Delete File
-                Storage::delete('/public/attachments/'.$previous_file);
+            if ($request->hasFile('file')) {
+
+                if ($previous_file != '') {
+                    // Delete File
+                    Storage::delete('/public/attachments/' . $previous_file);
+                }
+                $documents->file = $fileNameToStore;
             }
-            $documents->file = $fileNameToStore;
+        }else{
+            $documents->original_placement_location = $request->input('original_placement_location');
+            $documents->original_document_location = $request->input('original_document_location');
+            $documents->last_renewal_date = $request->input('last_renewal_date');
+            $documents->next_renewal_date = $request->input('next_renewal_date');
+            $documents->remarks = $request->input('remarks');
+
+            $previous_file = $request->input('previous_file');
+
+            if ($request->hasFile('file')) {
+
+                if ($previous_file != '') {
+                    // Delete File
+                    Storage::delete('/public/attachments/' . $previous_file);
+                }
+                $documents->file = $fileNameToStore;
+            }
         }
+        
         $documents->save();
 
         return redirect('/documents/'.$id.'/edit')->with('success', 'Document Updated!');
@@ -243,4 +279,51 @@ class DocumentsController extends Controller
     {
         //
     }
+
+    public function getDocuments(Request $request){
+        $item_name = $request->item_name;
+        $unit = $request->unit;
+        $department = $request->department;
+        $service_type = $request->service_type;
+        $from_date = $request->from_date;
+        $to_date = $request->to_date;
+
+        $where = '';
+
+        if($item_name != ''){
+            $where .= " AND item_name LIKE '%$item_name%'";
+        }
+
+        if($unit != ''){
+            $where .= " AND unit_id=$unit";
+        }
+
+        if($department != ''){
+            $where .= " AND department_id=$department";
+        }
+
+        if($service_type != ''){
+            $where .= " AND service_type_id=$service_type";
+        }
+
+        if($from_date != '' && $to_date != ''){
+            $where .= " AND next_renewal_date between '$from_date' AND '$to_date'";
+        }
+
+        $documents = DB::select( "SELECT documents.*, units.name as unit, departments.name as department, 
+                                  service_types.name as service_type  
+                                  FROM documents 
+                                  LEFT JOIN units 
+                                  ON units.id=documents.unit_id
+                                  LEFT JOIN
+                                  departments
+                                  ON departments.id=documents.department_id
+                                  LEFT JOIN 
+                                  service_types
+                                  ON service_types.id=documents.service_type_id
+                                  WHERE 1 $where" );
+
+        return \GuzzleHttp\json_encode($documents);
+    }
+
 }

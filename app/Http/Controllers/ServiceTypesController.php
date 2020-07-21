@@ -24,7 +24,6 @@ class ServiceTypesController extends Controller
     public function index()
     {
         $user = Auth::user();
-
         $user_unit = $user->unit_id;
 
         $service_types = ServiceType::all();
@@ -38,7 +37,10 @@ class ServiceTypesController extends Controller
      */
     public function create()
     {
-        return view('service_types.create');
+        $user = Auth::user();
+        $user_unit = $user->unit_id;
+
+        return view('service_types.create')->with('user_unit', $user_unit);
     }
 
     /**
@@ -82,8 +84,11 @@ class ServiceTypesController extends Controller
      */
     public function edit($id)
     {
+        $user = Auth::user();
+        $user_unit = $user->unit_id;
+
         $service_type = ServiceType::find($id);
-        return view('service_types.edit')->with('service_type', $service_type);
+        return view('service_types.edit')->with('service_type', $service_type)->with('user_unit', $user_unit);
     }
 
     /**

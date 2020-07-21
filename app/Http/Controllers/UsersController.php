@@ -57,9 +57,12 @@ class UsersController extends Controller
      */
     public function create()
     {
+        $user = Auth::user();
+        $user_unit = $user->unit_id;
+
         $units = Unit::all();
         $departments = Department::all();
-        return view('users.create')->with('units', $units)->with('departments', $departments);
+        return view('users.create')->with('units', $units)->with('departments', $departments)->with('user_unit', $user_unit);
     }
 
     /**
@@ -75,7 +78,7 @@ class UsersController extends Controller
             'email' => 'required',
             'unit_id' => 'required',
             'department_id' => 'required',
-            'password' => 'required'
+            'password' => 'required|string|min:8'
         ]);
 
         $users = new User;
@@ -86,7 +89,7 @@ class UsersController extends Controller
         $users->password = Hash::make($request->input('password'));
         $users->save();
 
-        return redirect('/users/create')->with('message', 'User Created');
+        return redirect('/users')->with('message', 'User Created');
     }
 
     /**
@@ -136,6 +139,6 @@ class UsersController extends Controller
         $user->delete();
 
         // redirect
-        return Redirect::to('users')->with('message', 'User Deleted!');
+        return redirect('users')->with('message', 'User Deleted!');
     }
 }

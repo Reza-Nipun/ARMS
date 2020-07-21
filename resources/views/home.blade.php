@@ -68,12 +68,14 @@
                         <tr>
                             <th colspan="14"><h3>{{ __('Documents') }}</h3></th>
                             <th colspan="3">
-                                <a href="{{ url('documents/create') }}" class="btn btn-success">
-                                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus-square-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4a.5.5 0 0 0-1 0v3.5H4a.5.5 0 0 0 0 1h3.5V12a.5.5 0 0 0 1 0V8.5H12a.5.5 0 0 0 0-1H8.5V4z"/>
-                                    </svg>
-                                    CREATE
-                                </a>
+                                @if($user_unit == 0)
+                                    <a href="{{ url('documents/create') }}" class="btn btn-success">
+                                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus-square-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4a.5.5 0 0 0-1 0v3.5H4a.5.5 0 0 0 0 1h3.5V12a.5.5 0 0 0 1 0V8.5H12a.5.5 0 0 0 0-1H8.5V4z"/>
+                                        </svg>
+                                        CREATE
+                                    </a>
+                                @endif
                             </th>
                         </tr>
                         <tr>
@@ -96,7 +98,7 @@
                             <th class="text-center">Action</th>
                         </tr>
                         </thead>
-                        <tbody id="tbody_id">
+                        <tbody id="filter_result">
                         @if(count($documents) > 0)
                             @foreach($documents as $d)
                                 <tr>
@@ -148,7 +150,7 @@
                         @endif
                         </tbody>
                     </table>
-                    <div class="row justify-content-center">{{ $documents->links() }}</div>
+                    <div class="row justify-content-center" id="pagination">{{ $documents->links() }}</div>
                 </div>
             </div>
         </div>
@@ -164,6 +166,45 @@
         var from_date = $("#from_date").val();
         var to_date = $("#to_date").val();
 
+        $("#filter_result").empty();
+        $("#pagination").empty();
 
+        $.ajax({
+            url: "{{ url("/getDocuments") }}",
+            type: "GET",
+            data: {_token:"{{csrf_token()}}", item_name: item_name, unit: unit, department: department, service_type: service_type, from_date: from_date, to_date: to_date},
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+
+                var res='';
+                $.each (data, function (key, value) {
+                    res +=
+                        '<tr>'+
+                        '<td class="text-center">'+value.id+'</td>'+
+                        '<td class="text-center">'+(value.item_name != null ? value.item_name : '')+'</td>'+
+                        '<td class="text-center">'+(value.service_type != null ? value.service_type : '')+'</td>'+
+                        '<td class="text-center">'+(value.brand != null ? value.brand : '')+'</td>'+
+                        '<td class="text-center">'+(value.model != null ? value.model : '')+'</td>'+
+                        '<td class="text-center">'+(value.serial_no != null ? value.serial_no : '')+'</td>'+
+                        '<td class="text-center">'+(value.unit != null ? value.unit : '')+'</td>'+
+                        '<td class="text-center">'+(value.department != null ? value.department : '')+'</td>'+
+                        '<td class="text-center">'+(value.user != null ? value.user : '')+'</td>'+
+                        '<td class="text-center">'+(value.original_placement_location != null ? value.original_placement_location : '')+'</td>'+
+                        '<td class="text-center">'+(value.original_document_location != null ? value.original_document_location : '')+'</td>'+
+                        '<td class="text-center">'+(value.last_renewal_date != null ? value.last_renewal_date : '')+'</td>'+
+                        '<td class="text-center">'+(value.next_renewal_date != null ? value.next_renewal_date : '')+'</td>'+
+                        '<td class="text-center">'+(value.vendor != null ? value.vendor : '')+'</td>'+
+                        '<td class="text-center">'+(value.amount != null ? value.amount : '')+'</td>'+
+                        '<td class="text-center">'+(value.remarks != null ? value.remarks : '')+'</td>'+
+                        '<td class="text-center"><a style="margin: 1px;" href="<?php echo url('/');?>/documents/'+value.id+'/edit" class="btn btn-warning"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/><path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/></svg></a>'+(value.file != null ? '<a style="margin: 1px;" href="<?php echo url('/');?>/public/storage/attachments/'+value.file+'" class="btn btn-success" target="_blank"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-download" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M.5 8a.5.5 0 0 1 .5.5V12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8.5a.5.5 0 0 1 1 0V12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V8.5A.5.5 0 0 1 .5 8z"/><path fill-rule="evenodd" d="M5 7.5a.5.5 0 0 1 .707 0L8 9.793 10.293 7.5a.5.5 0 1 1 .707.707l-2.646 2.647a.5.5 0 0 1-.708 0L5 8.207A.5.5 0 0 1 5 7.5z"/><path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0v-8A.5.5 0 0 1 8 1z"/></svg></a>' : '')+'</td>'+
+                        '</tr>';
+
+                });
+
+                $('#filter_result').append(res);
+
+            }
+        });
     }
 </script>

@@ -17,7 +17,7 @@
                                 <div class="form-group">
 
                                     {{ Form::label('item_name', 'Item Name') }} <span style="color: red">*</span>
-                                    {{ Form::text('item_name', $document->item_name, ['class' => 'form-control', 'placeholder' => 'Document Name']) }}
+                                    {{ Form::text('item_name', $document->item_name, ['class' => 'form-control', 'placeholder' => 'Document Name', $user_unit != 0 ? 'readonly': '']) }}
 
                                 </div>
                             </div>
@@ -25,7 +25,7 @@
                                 <div class="form-group">
 
                                     {{ Form::label('service_type_id', 'Service Type') }} <span style="color: red">*</span>
-                                    <select id="service_type_id"  name="service_type_id" class="form-control">
+                                    <select id="service_type_id"  name="service_type_id" class="form-control" @if($user_unit != 0) disabled="disabled" @endif>
                                         <option value="">Select Service Type</option>
                                         @foreach ($service_types as $s)
                                             <option value="{{ $s->id }}"
@@ -41,7 +41,7 @@
                                 <div class="form-group">
 
                                     {{ Form::label('brand', 'Brand') }}
-                                    {{ Form::text('brand', $document->brand, ['class' => 'form-control', 'placeholder' => 'Brand']) }}
+                                    {{ Form::text('brand', $document->brand, ['class' => 'form-control', 'placeholder' => 'Brand', $user_unit != 0 ? 'readonly': '']) }}
 
                                 </div>
                             </div>
@@ -49,7 +49,7 @@
                                 <div class="form-group">
 
                                     {{ Form::label('model', 'Model') }}
-                                    {{ Form::text('model', $document->model, ['class' => 'form-control', 'placeholder' => 'Model']) }}
+                                    {{ Form::text('model', $document->model, ['class' => 'form-control', 'placeholder' => 'Model', $user_unit != 0 ? 'readonly': '']) }}
 
                                 </div>
                             </div>
@@ -57,7 +57,7 @@
                                 <div class="form-group">
 
                                     {{ Form::label('serial_no', 'Serial No') }}
-                                    {{ Form::text('serial_no', $document->serial_no, ['class' => 'form-control', 'placeholder' => 'Serial No']) }}
+                                    {{ Form::text('serial_no', $document->serial_no, ['class' => 'form-control', 'placeholder' => 'Serial No', $user_unit != 0 ? 'readonly': '']) }}
 
                                 </div>
                             </div>
@@ -65,7 +65,7 @@
                                 <div class="form-group">
 
                                     {{ Form::label('unit_id', 'Unit') }} <span style="color: red">*</span>
-                                    <select id="unit_id"  name="unit_id" class="form-control">
+                                    <select id="unit_id"  name="unit_id" class="form-control" @if($user_unit != 0) disabled="disabled" @endif>
                                         <option value="">Select Unit</option>
                                         @foreach ($units as $u)
                                             <option value="{{ $u->id }}"
@@ -81,7 +81,7 @@
                                 <div class="form-group">
 
                                     {{ Form::label('department_id', 'Department') }} <span style="color: red">*</span>
-                                    <select id="department_id"  name="department_id" class="form-control">
+                                    <select id="department_id"  name="department_id" class="form-control" @if($user_unit != 0) disabled="disabled" @endif>
                                         <option value="">Select Department</option>
                                         @foreach ($departments as $d)
                                             <option value="{{ $d->id }}"
@@ -99,7 +99,7 @@
                                 <div class="form-group">
 
                                     {{ Form::label('user', 'User') }} <span style="color: red">*</span>
-                                    {{ Form::text('user', $document->user, ['class' => 'form-control', 'placeholder' => 'User']) }}
+                                    {{ Form::text('user', $document->user, ['class' => 'form-control', 'placeholder' => 'User', $user_unit != 0 ? 'readonly': '' ]) }}
 
                                 </div>
                             </div>
@@ -107,7 +107,7 @@
                                 <div class="form-group">
 
                                     {{ Form::label('original_placement_location', 'Original Placement Location') }}
-                                    {{ Form::text('original_placement_location', $document->original_placement_location, ['class' => 'form-control', 'placeholder' => 'Original Placement Location']) }}
+                                    {{ Form::text('original_placement_location', $document->original_placement_location, ['class' => 'form-control', 'placeholder' => 'Original Placement Location', $user_unit != 0 ? 'readonly': '']) }}
 
                                 </div>
                             </div>
@@ -115,7 +115,7 @@
                                 <div class="form-group">
 
                                     {{ Form::label('original_document_location', 'Original Document Location') }}
-                                    {{ Form::text('original_document_location', $document->original_document_location, ['class' => 'form-control', 'placeholder' => 'Original Document Location']) }}
+                                    {{ Form::text('original_document_location', $document->original_document_location, ['class' => 'form-control', 'placeholder' => 'Original Document Location', $user_unit != 0 ? 'readonly': '']) }}
 
                                 </div>
                             </div>
@@ -139,7 +139,7 @@
                                 <div class="form-group">
 
                                     {{ Form::label('vendor', 'Vendor') }}
-                                    {{ Form::text('vendor', $document->vendor, ['class' => 'form-control', 'placeholder' => 'Vendor']) }}
+                                    {{ Form::text('vendor', $document->vendor, ['class' => 'form-control', 'placeholder' => 'Vendor', $user_unit != 0 ? 'readonly': '']) }}
 
                                 </div>
                             </div>
@@ -147,7 +147,8 @@
                                 <div class="form-group">
 
                                     {{ Form::label('amount', 'Amount') }} <span style="color: red">*</span>
-                                    {{ Form::number('amount', $document->amount, ['class' => 'form-control', 'placeholder' => 'Amount']) }}
+                                    {{ Form::number('amount', $document->amount, ['class' => 'form-control', 'placeholder' => 'Amount', $user_unit != 0 ? 'readonly': '']) }}
+
 
                                 </div>
                             </div>

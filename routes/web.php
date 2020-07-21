@@ -66,3 +66,5 @@ Route::resource('departments', 'DepartmentsController');
 Route::resource('service_types', 'ServiceTypesController');
 
 Route::resource('documents', 'DocumentsController');
+
+Route::get('/getDocuments', 'DocumentsController@getDocuments');
