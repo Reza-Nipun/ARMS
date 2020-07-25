@@ -16,8 +16,14 @@
                     <div class="form-group">
 
                         <label>Select Unit</label>
-                        <select class="form-control" name="unit" id="unit">
+                        <select class="form-control" name="unit" id="unit" @if($user_unit != 0) onchange="isThisOptionSelected();" @endif>
                             <option value="">Unit</option>
+                            @foreach ($units as $u)
+                                <option value="{{ $u->id }}"
+                                        @if($u->id == $user_unit) selected="selected" onchange="isThisOptionSelected();" @endif>
+                                    {{ $u->name }}
+                                </option>
+                            @endforeach
                         </select>
 
                     </div>
@@ -25,8 +31,14 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <label>Select Department</label>
-                        <select class="form-control" name="department" id="department">
+                        <select class="form-control" name="department" id="department" @if($department_id != 0) onchange="isThisOptionSelected();" @endif>
                             <option value="">Department</option>
+                            @foreach ($departments as $d)
+                                <option value="{{ $d->id }}"
+                                        @if($d->id == $department_id) selected="selected" onchange="isThisOptionSelected();" @endif>
+                                    {{ $d->name }}
+                                </option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -35,6 +47,9 @@
                         <label>Select Service Type</label>
                         <select class="form-control" name="service_type" id="service_type">
                             <option value="">Service Type</option>
+                            @foreach ($service_types as $s)
+                                <option value="{{ $s->id }}">{{ $s->name }}</option>
+                            @endforeach
                         </select>
 
                     </div>
@@ -87,7 +102,7 @@
                             <th class="text-center">Serial</th>
                             <th class="text-center">Unit</th>
                             <th class="text-center">Dept.</th>
-                            <th class="text-center">User</th>
+                            <th class="text-center">Liable Person</th>
                             <th class="text-center">Orig. Loc.</th>
                             <th class="text-center">Doc. Loc.</th>
                             <th class="text-center">Last Renew</th>
@@ -206,5 +221,10 @@
 
             }
         });
+    }
+
+    function isThisOptionSelected(){
+        alert("Sorry, You cannot change your Unit/Department!");
+        location.reload();
     }
 </script>

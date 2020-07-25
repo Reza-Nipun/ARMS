@@ -87,8 +87,8 @@
                             <div class="col-md-3">
                                 <div class="form-group">
 
-                                    {{ Form::label('user', 'User') }} <span style="color: red">*</span>
-                                    {{ Form::text('user', '', ['class' => 'form-control', 'placeholder' => 'User']) }}
+                                    {{ Form::label('user', 'Liable Person') }} <span style="color: red">*</span>
+                                    {{ Form::text('user', '', ['class' => 'form-control', 'placeholder' => 'Liable Person']) }}
 
                                 </div>
                             </div>

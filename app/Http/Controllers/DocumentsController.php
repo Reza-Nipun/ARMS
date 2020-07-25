@@ -30,15 +30,40 @@ class DocumentsController extends Controller
         $user = Auth::user();
 
         $user_unit = $user->unit_id;
+        $department_id = $user->department_id;
 
-        $documents = DB::table('documents')
-                    ->leftJoin('units', 'units.id', '=', 'documents.unit_id')
-                    ->leftJoin('departments', 'departments.id', '=', 'documents.department_id')
-                    ->leftJoin('service_types', 'service_types.id', '=', 'documents.service_type_id')
-                    ->select('documents.*', 'units.name as unit', 'departments.name as department', 'service_types.name as service_type')
-                    ->paginate(10);
+        $service_types = ServiceType::all();
 
-        return view('home')->with('documents', $documents)->with('user_unit', $user_unit);
+        if($user_unit != 0){
+            $documents = DB::table('documents')
+                        ->leftJoin('units', 'units.id', '=', 'documents.unit_id')
+                        ->leftJoin('departments', 'departments.id', '=', 'documents.department_id')
+                        ->leftJoin('service_types', 'service_types.id', '=', 'documents.service_type_id')
+                        ->select('documents.*', 'units.name as unit', 'departments.name as department', 'service_types.name as service_type')
+                        ->where('unit_id', '=', $user_unit)
+                        ->where('department_id', '=', $department_id)
+                        ->paginate(10);
+
+            $units = DB::table('units')->select('*')->where('id', '=', $user_unit)->get();
+            $departments = DB::table('departments')->select('*')->where('id', '=', $department_id)->get();
+        }else{
+            $documents = DB::table('documents')
+                        ->leftJoin('units', 'units.id', '=', 'documents.unit_id')
+                        ->leftJoin('departments', 'departments.id', '=', 'documents.department_id')
+                        ->leftJoin('service_types', 'service_types.id', '=', 'documents.service_type_id')
+                        ->select('documents.*', 'units.name as unit', 'departments.name as department', 'service_types.name as service_type')
+                        ->paginate(10);
+
+            $units = Unit::all();
+            $departments = Department::all();
+        }
+
+        return view('home')->with('documents', $documents)
+                    ->with('user_unit', $user_unit)
+                    ->with('department_id', $department_id)
+                    ->with('units', $units)
+                    ->with('service_types', $service_types)
+                    ->with('departments', $departments);
     }
 
     /**
@@ -48,11 +73,20 @@ class DocumentsController extends Controller
      */
     public function create()
     {
+        $user = Auth::user();
+
+        $user_unit = $user->unit_id;
+        $department_id = $user->department_id;
+
         $service_types = ServiceType::all();
         $units = Unit::all();
         $departments = Department::all();
 
-        return view('documents.create')->with('service_types', $service_types)->with('units', $units)->with('departments', $departments);
+        return view('documents.create')
+                ->with('user_unit', $user_unit)
+                ->with('service_types', $service_types)
+                ->with('units', $units)
+                ->with('departments', $departments);
     }
 
     /**
@@ -291,23 +325,23 @@ class DocumentsController extends Controller
         $where = '';
 
         if($item_name != ''){
-            $where .= " AND item_name LIKE '%$item_name%'";
+            $where .= " AND documents.item_name LIKE '%$item_name%'";
         }
 
         if($unit != ''){
-            $where .= " AND unit_id=$unit";
+            $where .= " AND documents.unit_id=$unit";
         }
 
         if($department != ''){
-            $where .= " AND department_id=$department";
+            $where .= " AND documents.department_id=$department";
         }
 
         if($service_type != ''){
-            $where .= " AND service_type_id=$service_type";
+            $where .= " AND documents.service_type_id=$service_type";
         }
 
         if($from_date != '' && $to_date != ''){
-            $where .= " AND next_renewal_date between '$from_date' AND '$to_date'";
+            $where .= " AND documents.next_renewal_date between '$from_date' AND '$to_date'";
         }
 
         $documents = DB::select( "SELECT documents.*, units.name as unit, departments.name as department, 
