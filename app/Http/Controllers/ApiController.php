@@ -17,8 +17,8 @@ class ApiController extends Controller
             ->leftJoin('departments', 'departments.id', '=', 'documents.department_id')
             ->leftJoin('service_types', 'service_types.id', '=', 'documents.service_type_id')
             ->select('documents.*', 'units.name as unit', 'departments.name as department', 'service_types.name as service_type')
-            ->get();
+            ->paginate(10);
 
-        return $documents->toJson();
+        return response($documents, 200);
     }
 }
