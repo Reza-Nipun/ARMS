@@ -89,45 +89,55 @@ export default class Example extends Component {
         const { documents } = this.state;
 
         return (
-
-            <div className='container' style={{ height: '100%', position: 'absolute', left: '0px', width: '100%' }}>
-                <div className='row'>
-                    <div className='col-md-12'>
-
-                        <Table striped bordered hover>
-                            <thead>
-                                <tr>
-                                    <th colSpan="3" style={{ textAlign: 'left', fontSize: '22px' }}>DOCUMENTS</th>
-                                    <th colSpan="14"></th>
-                                </tr>
-                                <tr style={{ backgroundColor: '#c9fa73' }}>
-                                    <th style={{ textAlign: 'center', fontSize: '18px' }}>#</th>
-                                    <th style={{ textAlign: 'center', fontSize: '18px' }}>Item</th>
-                                    <th style={{ textAlign: 'center', fontSize: '18px' }}>Service</th>
-                                    <th style={{ textAlign: 'center', fontSize: '18px' }}>Brand</th>
-                                    <th style={{ textAlign: 'center', fontSize: '18px' }}>Model</th>
-                                    <th style={{ textAlign: 'center', fontSize: '18px' }}>Series</th>
-                                    <th style={{ textAlign: 'center', fontSize: '18px' }}>Unit</th>
-                                    <th style={{ textAlign: 'center', fontSize: '18px' }}>Dept.</th>
-                                    <th style={{ textAlign: 'center', fontSize: '18px' }}>Liable Person</th>
-                                    <th style={{ textAlign: 'center', fontSize: '18px' }}>Orig. Loc.</th>
-                                    <th style={{ textAlign: 'center', fontSize: '18px' }}>Doc. Loc.</th>
-                                    <th style={{ textAlign: 'center', fontSize: '18px' }}>Last Renew</th>
-                                    <th style={{ textAlign: 'center', fontSize: '18px' }}>Next Renew</th>
-                                    <th style={{ textAlign: 'center', fontSize: '18px' }}>Vendor</th>
-                                    <th style={{ textAlign: 'center', fontSize: '18px' }}>Amount</th>
-                                    <th style={{ textAlign: 'center', fontSize: '18px' }}>Remarks</th>
-                                    <th style={{ textAlign: 'center', fontSize: '18px' }}>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                { documents && this.renderDocumentList() }
-                            </tbody>
-                        </Table>
-
+            <React.Fragment>
+                <div className='container'>
+                    <div className="row text-center">
+                        <div className="col-md-12">
+                            <h1>DOCUMENT LIST</h1>
+                        </div>
                     </div>
                 </div>
-            </div>
+                <div className='container'>
+                    <div className="row">
+                        <div className="col-md-12">
+                            <h3>FILTER OPTIONS WILL TAKE PLACE HERE...</h3>
+                        </div>
+                    </div>
+                </div>
+                <div className='container' style={{ height: '100%', position: 'absolute', left: '0px', width: '100%' }}>
+                    <div className='row'>
+                        <div className='col-md-12'>
+                            <Table striped bordered hover>
+                                <thead>
+                                    <tr style={{ backgroundColor: '#c9fa73' }}>
+                                        <th style={{ textAlign: 'center', fontSize: '18px' }}>#</th>
+                                        <th style={{ textAlign: 'center', fontSize: '18px' }}>Item</th>
+                                        <th style={{ textAlign: 'center', fontSize: '18px' }}>Service</th>
+                                        <th style={{ textAlign: 'center', fontSize: '18px' }}>Brand</th>
+                                        <th style={{ textAlign: 'center', fontSize: '18px' }}>Model</th>
+                                        <th style={{ textAlign: 'center', fontSize: '18px' }}>Series</th>
+                                        <th style={{ textAlign: 'center', fontSize: '18px' }}>Unit</th>
+                                        <th style={{ textAlign: 'center', fontSize: '18px' }}>Dept.</th>
+                                        <th style={{ textAlign: 'center', fontSize: '18px' }}>Liable Person</th>
+                                        <th style={{ textAlign: 'center', fontSize: '18px' }}>Orig. Loc.</th>
+                                        <th style={{ textAlign: 'center', fontSize: '18px' }}>Doc. Loc.</th>
+                                        <th style={{ textAlign: 'center', fontSize: '18px' }}>Last Renew</th>
+                                        <th style={{ textAlign: 'center', fontSize: '18px' }}>Next Renew</th>
+                                        <th style={{ textAlign: 'center', fontSize: '18px' }}>Vendor</th>
+                                        <th style={{ textAlign: 'center', fontSize: '18px' }}>Amount</th>
+                                        <th style={{ textAlign: 'center', fontSize: '18px' }}>Remarks</th>
+                                        <th style={{ textAlign: 'center', fontSize: '18px' }}>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    { documents && this.renderDocumentList() }
+                                </tbody>
+                            </Table>
+
+                        </div>
+                    </div>
+                </div>
+            </React.Fragment>
         )
     }
 }
