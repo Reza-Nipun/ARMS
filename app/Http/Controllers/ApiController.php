@@ -12,6 +12,10 @@ use DB;
 class ApiController extends Controller
 {
     public function index(){
+        return view('welcome');
+    }
+
+    public function documentList(){
         $documents = DB::table('documents')
             ->leftJoin('units', 'units.id', '=', 'documents.unit_id')
             ->leftJoin('departments', 'departments.id', '=', 'documents.department_id')
@@ -21,4 +25,11 @@ class ApiController extends Controller
 
         return response($documents, 200);
     }
+
+    public function getUnits(){
+        $units = Unit::all();
+
+        return response($units, 200);
+    }
+
 }

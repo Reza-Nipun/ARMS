@@ -28,7 +28,6 @@ class DocumentsController extends Controller
     public function index()
     {
         $user = Auth::user();
-
         $user_unit = $user->unit_id;
         $department_id = $user->department_id;
 

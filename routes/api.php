@@ -18,8 +18,10 @@ use Illuminate\Support\Facades\Route;
 //    return $request->user();
 //});
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('welcome');
+//});
 
-Route::get('document_list', 'ApiController@index');
+Route::get('/', 'ApiController@index');
+Route::get('document_list', 'ApiController@documentList');
+Route::get('units', 'ApiController@getUnits');

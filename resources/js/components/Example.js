@@ -7,6 +7,7 @@ import Header from './Header';
 import Footer from './Footer';
 import "bootstrap/dist/css/bootstrap.min.css";
 import Pagination from 'react-js-pagination';
+import { Container, Row, Col } from 'reactstrap';
 
 
 export default class Example extends Component {
@@ -14,12 +15,27 @@ export default class Example extends Component {
     constructor () {
         super()
         this.state = {
-            documents: null
+            documents: null,
+            units: []
         }
     }
 
     async componentWillMount(){
         await this.getDocumentsData();
+        await this.getUnits();
+    }
+
+    async getUnits(){
+
+        // fetch('http://10.234.15.25/arms/api/document_list')
+        //     .then(response => response.json())
+        //     .then(json => this.setState({ units: json.data }));
+
+        const url = 'http://10.234.15.25/arms/api/units';
+
+        const response = await axios.get(url);
+
+        this.setState({ units: response.data });
     }
 
     async getDocumentsData(pageNumber = 1){
@@ -93,18 +109,47 @@ export default class Example extends Component {
                 <div className='container'>
                     <div className="row text-center">
                         <div className="col-md-12">
-                            <h1>DOCUMENT LIST</h1>
+                            <h1>DOCUMENTS</h1>
                         </div>
                     </div>
                 </div>
-                <div className='container'>
-                    <div className="row">
-                        <div className="col-md-12">
-                            <h3>FILTER OPTIONS WILL TAKE PLACE HERE...</h3>
-                        </div>
-                    </div>
-                </div>
-                <div className='container' style={{ height: '100%', position: 'absolute', left: '0px', width: '100%' }}>
+                <br />
+                <Container>
+                    <Row>
+                        <Col>
+                            <select className="form-control" name="unit" id="unit">
+                                <option value="">Unit</option>
+                                {this.state.units.map(unit => (<option key={unit.id} value={unit.id}>{unit.name}</option>))}
+                            </select>
+                        </Col>
+                        <Col>
+                            <select className="form-control" name="department" id="department">
+                                <option value="">Department</option>
+
+                            </select>
+                        </Col>
+                        <Col>
+                            <select className="form-control" name="service_type" id="service_type">
+                                <option value="">Service Type</option>
+                                <option value="1">Action</option>
+                                <option value="2">Comedy</option>
+                            </select>
+                        </Col>
+                        <Col>
+                            <input type="date" className="form-control" name="from_date" id="from_date" />
+                            <label>Renew Date From</label>
+                        </Col>
+                        <Col>
+                            <input type="date" className="form-control" name="to_date" id="to_date" />
+                            <label>Renew Date To</label>
+                        </Col>
+                        <Col>
+                            <button className="btn btn-success">SEARCH</button>
+                        </Col>
+                    </Row>
+                </Container>
+                <br />
+                {/*<div className='container' style={{ height: '100%', position: 'absolute', left: '0px', width: '100%' }}>*/}
                     <div className='row'>
                         <div className='col-md-12'>
                             <Table striped bordered hover>
@@ -136,7 +181,7 @@ export default class Example extends Component {
 
                         </div>
                     </div>
-                </div>
+                {/*</div>*/}
             </React.Fragment>
         )
     }
