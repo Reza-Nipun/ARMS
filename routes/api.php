@@ -25,3 +25,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'ApiController@index');
 Route::get('document_list', 'ApiController@documentList');
 Route::get('units', 'ApiController@getUnits');
+Route::get('departments', 'ApiController@getDepartments');
+Route::get('service_types', 'ApiController@getServiceTypes');
+Route::get('get_documents', 'ApiController@getDocuments');

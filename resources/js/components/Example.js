@@ -16,13 +16,17 @@ export default class Example extends Component {
         super()
         this.state = {
             documents: null,
-            units: []
+            units: [],
+            departments: [],
+            service_types: []
         }
     }
 
     async componentWillMount(){
         await this.getDocumentsData();
         await this.getUnits();
+        await this.getDepartments();
+        await this.getServiceTypes();
     }
 
     async getUnits(){
@@ -36,6 +40,32 @@ export default class Example extends Component {
         const response = await axios.get(url);
 
         this.setState({ units: response.data });
+    }
+
+    async getDepartments(){
+
+        // fetch('http://10.234.15.25/arms/api/document_list')
+        //     .then(response => response.json())
+        //     .then(json => this.setState({ units: json.data }));
+
+        const url = 'http://10.234.15.25/arms/api/departments';
+
+        const response = await axios.get(url);
+
+        this.setState({ departments: response.data });
+    }
+
+    async getServiceTypes(){
+
+        // fetch('http://10.234.15.25/arms/api/document_list')
+        //     .then(response => response.json())
+        //     .then(json => this.setState({ units: json.data }));
+
+        const url = 'http://10.234.15.25/arms/api/service_types';
+
+        const response = await axios.get(url);
+
+        this.setState({ service_types: response.data });
     }
 
     async getDocumentsData(pageNumber = 1){
@@ -100,6 +130,21 @@ export default class Example extends Component {
         );
     }
 
+    searchDocuments(){
+        // var value = $("#unit").val();
+        var unit_ref = this.refs.unit_ref.value;
+        var department_ref = this.refs.department_ref.value;
+        var service_type_ref = this.refs.service_type_ref.value;
+        var from_date_ref = this.refs.from_date_ref.value;
+        var to_date_ref = this.refs.to_date_ref.value;
+
+        const url = "http://10.234.15.25/arms/api/get_documents/"+unit_ref+"";
+
+        const response = axios.get(url);
+
+        this.setState({ documents: response.data });
+    }
+
     render () {
 
         const { documents } = this.state;
@@ -117,34 +162,33 @@ export default class Example extends Component {
                 <Container>
                     <Row>
                         <Col>
-                            <select className="form-control" name="unit" id="unit">
+                            <select className="form-control" name="unit" id="unit" ref="unit_ref">
                                 <option value="">Unit</option>
                                 {this.state.units.map(unit => (<option key={unit.id} value={unit.id}>{unit.name}</option>))}
                             </select>
                         </Col>
                         <Col>
-                            <select className="form-control" name="department" id="department">
+                            <select className="form-control" name="department" id="department" ref="department_ref">
                                 <option value="">Department</option>
-
+                                {this.state.departments.map(department => (<option key={department.id} value={department.id}>{department.name}</option>))}
                             </select>
                         </Col>
                         <Col>
-                            <select className="form-control" name="service_type" id="service_type">
+                            <select className="form-control" name="service_type" id="service_type" ref="service_type_ref">
                                 <option value="">Service Type</option>
-                                <option value="1">Action</option>
-                                <option value="2">Comedy</option>
+                                {this.state.service_types.map(service_type => (<option key={service_type.id} value={service_type.id}>{service_type.name}</option>))}
                             </select>
                         </Col>
                         <Col>
-                            <input type="date" className="form-control" name="from_date" id="from_date" />
+                            <input type="date" className="form-control" name="from_date" id="from_date" ref="from_date_ref" />
                             <label>Renew Date From</label>
                         </Col>
                         <Col>
-                            <input type="date" className="form-control" name="to_date" id="to_date" />
+                            <input type="date" className="form-control" name="to_date" id="to_date" ref="to_date_ref" />
                             <label>Renew Date To</label>
                         </Col>
                         <Col>
-                            <button className="btn btn-success">SEARCH</button>
+                            <Button className="btn btn-success" onClick={this.searchDocuments.bind(this)}>SEARCH</Button>
                         </Col>
                     </Row>
                 </Container>

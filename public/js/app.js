@@ -84929,7 +84929,9 @@ var Example = /*#__PURE__*/function (_Component) {
     _this = _super.call(this);
     _this.state = {
       documents: null,
-      units: []
+      units: [],
+      departments: [],
+      service_types: []
     };
     return _this;
   }
@@ -84950,6 +84952,14 @@ var Example = /*#__PURE__*/function (_Component) {
                 return this.getUnits();
 
               case 4:
+                _context.next = 6;
+                return this.getDepartments();
+
+              case 6:
+                _context.next = 8;
+                return this.getServiceTypes();
+
+              case 8:
               case "end":
                 return _context.stop();
             }
@@ -85000,34 +85010,106 @@ var Example = /*#__PURE__*/function (_Component) {
       return getUnits;
     }()
   }, {
-    key: "getDocumentsData",
+    key: "getDepartments",
     value: function () {
-      var _getDocumentsData = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-        var pageNumber,
-            url,
-            response,
-            _args3 = arguments;
+      var _getDepartments = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var url, response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                pageNumber = _args3.length > 0 && _args3[0] !== undefined ? _args3[0] : 1;
+                // fetch('http://10.234.15.25/arms/api/document_list')
+                //     .then(response => response.json())
+                //     .then(json => this.setState({ units: json.data }));
+                url = 'http://10.234.15.25/arms/api/departments';
+                _context3.next = 3;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url);
+
+              case 3:
+                response = _context3.sent;
+                this.setState({
+                  departments: response.data
+                });
+
+              case 5:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      function getDepartments() {
+        return _getDepartments.apply(this, arguments);
+      }
+
+      return getDepartments;
+    }()
+  }, {
+    key: "getServiceTypes",
+    value: function () {
+      var _getServiceTypes = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+        var url, response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                // fetch('http://10.234.15.25/arms/api/document_list')
+                //     .then(response => response.json())
+                //     .then(json => this.setState({ units: json.data }));
+                url = 'http://10.234.15.25/arms/api/service_types';
+                _context4.next = 3;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url);
+
+              case 3:
+                response = _context4.sent;
+                this.setState({
+                  service_types: response.data
+                });
+
+              case 5:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this);
+      }));
+
+      function getServiceTypes() {
+        return _getServiceTypes.apply(this, arguments);
+      }
+
+      return getServiceTypes;
+    }()
+  }, {
+    key: "getDocumentsData",
+    value: function () {
+      var _getDocumentsData = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+        var pageNumber,
+            url,
+            response,
+            _args5 = arguments;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                pageNumber = _args5.length > 0 && _args5[0] !== undefined ? _args5[0] : 1;
                 url = "http://10.234.15.25/arms/api/document_list?page=".concat(pageNumber);
-                _context3.next = 4;
+                _context5.next = 4;
                 return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url);
 
               case 4:
-                response = _context3.sent;
+                response = _context5.sent;
                 this.setState({
                   documents: response.data
                 });
 
               case 6:
               case "end":
-                return _context3.stop();
+                return _context5.stop();
             }
           }
-        }, _callee3, this);
+        }, _callee5, this);
       }));
 
       function getDocumentsData() {
@@ -85138,6 +85220,21 @@ var Example = /*#__PURE__*/function (_Component) {
       }))));
     }
   }, {
+    key: "searchDocuments",
+    value: function searchDocuments() {
+      // var value = $("#unit").val();
+      var unit_ref = this.refs.unit_ref.value;
+      var department_ref = this.refs.department_ref.value;
+      var service_type_ref = this.refs.service_type_ref.value;
+      var from_date_ref = this.refs.from_date_ref.value;
+      var to_date_ref = this.refs.to_date_ref.value;
+      var url = "http://10.234.15.25/arms/api/get_documents/" + unit_ref + "";
+      var response = axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url);
+      this.setState({
+        documents: response.data
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
       var documents = this.state.documents;
@@ -85150,7 +85247,8 @@ var Example = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("h1", null, "DOCUMENTS")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_5__["Container"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_5__["Row"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_5__["Col"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("select", {
         className: "form-control",
         name: "unit",
-        id: "unit"
+        id: "unit",
+        ref: "unit_ref"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("option", {
         value: ""
       }, "Unit"), this.state.units.map(function (unit) {
@@ -85161,31 +85259,42 @@ var Example = /*#__PURE__*/function (_Component) {
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_5__["Col"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("select", {
         className: "form-control",
         name: "department",
-        id: "department"
+        id: "department",
+        ref: "department_ref"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("option", {
         value: ""
-      }, "Department"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_5__["Col"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("select", {
+      }, "Department"), this.state.departments.map(function (department) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("option", {
+          key: department.id,
+          value: department.id
+        }, department.name);
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_5__["Col"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("select", {
         className: "form-control",
         name: "service_type",
-        id: "service_type"
+        id: "service_type",
+        ref: "service_type_ref"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("option", {
         value: ""
-      }, "Service Type"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("option", {
-        value: "1"
-      }, "Action"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("option", {
-        value: "2"
-      }, "Comedy"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_5__["Col"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("input", {
+      }, "Service Type"), this.state.service_types.map(function (service_type) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("option", {
+          key: service_type.id,
+          value: service_type.id
+        }, service_type.name);
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_5__["Col"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("input", {
         type: "date",
         className: "form-control",
         name: "from_date",
-        id: "from_date"
+        id: "from_date",
+        ref: "from_date_ref"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("label", null, "Renew Date From")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_5__["Col"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("input", {
         type: "date",
         className: "form-control",
         name: "to_date",
-        id: "to_date"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("label", null, "Renew Date To")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_5__["Col"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("button", {
-        className: "btn btn-success"
+        id: "to_date",
+        ref: "to_date_ref"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("label", null, "Renew Date To")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_5__["Col"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_5__["Button"], {
+        className: "btn btn-success",
+        onClick: this.searchDocuments.bind(this)
       }, "SEARCH")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
         className: "row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
