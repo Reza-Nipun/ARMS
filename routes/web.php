@@ -34,3 +34,7 @@ Route::resource('service_types', 'ServiceTypesController');
 Route::resource('documents', 'DocumentsController');
 
 Route::get('/getDocuments', 'DocumentsController@getDocuments');
+
+Route::get('/documentList', 'DashboardController@index')->name('dashboard');
+
+Route::get('/filterDocuments', 'DashboardController@getFilteredDocuments')->name('filterDocuments');

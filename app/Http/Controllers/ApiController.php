@@ -62,7 +62,7 @@ class ApiController extends Controller
             $query->where('documents.unit_id', '=', $unit);
         }
 
-        $documents = $query->get();
+        $documents = $query->paginate(10);
 
         return \GuzzleHttp\json_encode($documents);
     }

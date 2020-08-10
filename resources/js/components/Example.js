@@ -18,7 +18,8 @@ export default class Example extends Component {
             documents: null,
             units: [],
             departments: [],
-            service_types: []
+            service_types: [],
+            document_list: null
         }
     }
 
@@ -131,14 +132,16 @@ export default class Example extends Component {
     }
 
     searchDocuments(){
+        this.state.documents = null;
+
         // var value = $("#unit").val();
         var unit_ref = this.refs.unit_ref.value;
-        var department_ref = this.refs.department_ref.value;
-        var service_type_ref = this.refs.service_type_ref.value;
-        var from_date_ref = this.refs.from_date_ref.value;
-        var to_date_ref = this.refs.to_date_ref.value;
+        // var department_ref = this.refs.department_ref.value;
+        // var service_type_ref = this.refs.service_type_ref.value;
+        // var from_date_ref = this.refs.from_date_ref.value;
+        // var to_date_ref = this.refs.to_date_ref.value;
 
-        const url = "http://10.234.15.25/arms/api/get_documents/"+unit_ref+"";
+        const url = `http://10.234.15.25/arms/api/get_documents/`+unit_ref+`?page=${pageNumber}`;
 
         const response = axios.get(url);
 
@@ -219,7 +222,9 @@ export default class Example extends Component {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    { documents && this.renderDocumentList() }
+                                    {
+                                        documents && this.renderDocumentList()
+                                    }
                                 </tbody>
                             </Table>
 
