@@ -72,13 +72,28 @@
                         <button class="btn btn-primary" onclick="getFilterDocument()">SEARCH</button>
                     </div>
                 </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <br />
+                        <button class="btn btn-warning" style="color: #FFF;" id="btnExport123" onclick="ExportToExcel('table_id')">
+                            <b>
+                                Excel
+                            </b>
+                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-download" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M.5 8a.5.5 0 0 1 .5.5V12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8.5a.5.5 0 0 1 1 0V12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V8.5A.5.5 0 0 1 .5 8z"/>
+                                <path fill-rule="evenodd" d="M5 7.5a.5.5 0 0 1 .707 0L8 9.793 10.293 7.5a.5.5 0 1 1 .707.707l-2.646 2.647a.5.5 0 0 1-.708 0L5 8.207A.5.5 0 0 1 5 7.5z"/>
+                                <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0v-8A.5.5 0 0 1 8 1z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
 
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
-                    <table class="table table-bordered table-responsive" width="100%">
+                    <table class="table table-bordered table-responsive" width="100%" id="table_id">
                         <thead>
                         <tr>
                             <th colspan="14"><h3>{{ __('Documents') }}</h3></th>
@@ -226,5 +241,67 @@
     function isThisOptionSelected(){
         alert("Sorry, You cannot change your Unit/Department!");
         location.reload();
+    }
+
+    function ExportToExcel(tableid) {
+        var tab_text = "<table border='2px'><tr>";
+        var textRange; var j = 0;
+        tab = document.getElementById(tableid);//.getElementsByTagName('table'); // id of table
+        if (tab==null) {
+            return false;
+        }
+        if (tab.rows.length == 0) {
+            return false;
+        }
+
+        for (j = 0 ; j < tab.rows.length ; j++) {
+            tab_text = tab_text + tab.rows[j].innerHTML + "</tr>";
+            //tab_text=tab_text+"</tr>";
+        }
+
+        tab_text = tab_text + "</table>";
+        tab_text = tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
+        tab_text = tab_text.replace(/<img[^>]*>/gi, ""); // remove if u want images in your table
+        tab_text = tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
+
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf("MSIE ");
+
+        if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // If Internet Explorer
+        {
+            txtArea1.document.open("txt/html", "replace");
+            txtArea1.document.write(tab_text);
+            txtArea1.document.close();
+            txtArea1.focus();
+            sa = txtArea1.document.execCommand("SaveAs", true, "download.xls");
+        }
+        else                 //other browser not tested on IE 11
+        //sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text));
+            try {
+                var blob = new Blob([tab_text], { type: "application/vnd.ms-excel" });
+                window.URL = window.URL || window.webkitURL;
+                link = window.URL.createObjectURL(blob);
+                a = document.createElement("a");
+                if (document.getElementById("caption")!=null) {
+                    a.download=document.getElementById("caption").innerText;
+                }
+                else
+                {
+                    a.download = 'download';
+                }
+
+                a.href = link;
+
+                document.body.appendChild(a);
+
+                a.click();
+
+                document.body.removeChild(a);
+            } catch (e) {
+            }
+
+
+        return false;
+        //return (sa);
     }
 </script>
