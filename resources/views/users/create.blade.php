@@ -7,6 +7,12 @@
                 <div class="card">
                     <div class="card-header">{{ __('Create User') }}</div>
 
+                    @if (\Session::has('exception'))
+                        <div class="alert alert-danger">
+                             {!! \Session::get('exception') !!}
+                        </div>
+                    @endif
+
                     <div class="card-body">
                         {!! Form::open(['action' => 'UsersController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
                             @csrf

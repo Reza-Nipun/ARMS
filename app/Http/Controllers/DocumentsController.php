@@ -38,7 +38,11 @@ class DocumentsController extends Controller
                         ->leftJoin('units', 'units.id', '=', 'documents.unit_id')
                         ->leftJoin('departments', 'departments.id', '=', 'documents.department_id')
                         ->leftJoin('service_types', 'service_types.id', '=', 'documents.service_type_id')
-                        ->select('documents.*', 'units.name as unit', 'departments.name as department', 'service_types.name as service_type')
+                        ->leftJoin("users",function($join){
+                            $join->on("users.unit_id","=","documents.unit_id")
+                                ->on("users.department_id","=","documents.department_id");
+                        })
+                        ->select('documents.*', 'units.name as unit', 'departments.name as department', 'service_types.name as service_type', 'users.email as user_email')
                         ->where('unit_id', '=', $user_unit)
                         ->where('department_id', '=', $department_id)
                         ->paginate(10);
@@ -50,7 +54,11 @@ class DocumentsController extends Controller
                         ->leftJoin('units', 'units.id', '=', 'documents.unit_id')
                         ->leftJoin('departments', 'departments.id', '=', 'documents.department_id')
                         ->leftJoin('service_types', 'service_types.id', '=', 'documents.service_type_id')
-                        ->select('documents.*', 'units.name as unit', 'departments.name as department', 'service_types.name as service_type')
+                        ->leftJoin("users",function($join){
+                            $join->on("users.unit_id","=","documents.unit_id")
+                                ->on("users.department_id","=","documents.department_id");
+                        })
+                        ->select('documents.*', 'units.name as unit', 'departments.name as department', 'service_types.name as service_type', 'users.email as user_email')
                         ->paginate(10);
 
             $units = Unit::all();
@@ -344,7 +352,7 @@ class DocumentsController extends Controller
         }
 
         $documents = DB::select( "SELECT documents.*, units.name as unit, departments.name as department, 
-                                  service_types.name as service_type  
+                                  service_types.name as service_type, users.email as user_email  
                                   FROM documents 
                                   LEFT JOIN units 
                                   ON units.id=documents.unit_id
@@ -354,6 +362,9 @@ class DocumentsController extends Controller
                                   LEFT JOIN 
                                   service_types
                                   ON service_types.id=documents.service_type_id
+                                  LEFT JOIN 
+                                  users
+                                  ON users.unit_id=documents.unit_id AND users.department_id=documents.department_id
                                   WHERE 1 $where" );
 
         return \GuzzleHttp\json_encode($documents);

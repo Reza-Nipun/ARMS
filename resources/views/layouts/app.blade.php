@@ -26,7 +26,8 @@
             <div class="container">
 
                     <a class="navbar-brand" @guest href="{{ url('/') }}" @else href="{{ url('/documents') }}" @endguest>
-                        <h1>{{ config('app.name', 'Laravel') }}</h1>
+                        {{--<h1>{{ config('app.name', 'ARMS') }}</h1>--}}
+                        <h1>ARMS</h1>
                     </a>
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">

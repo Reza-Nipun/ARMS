@@ -38,7 +38,9 @@ class dailyReminderAutoMail extends Command
      */
     public function handle()
     {
-        DB::table('test')->delete();
-        echo "Delete Operation Done";
+//        DB::table('test')->delete();
+//        echo "Delete Operation Done";
+
+
     }
 }

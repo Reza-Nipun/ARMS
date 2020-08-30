@@ -81,15 +81,38 @@ class UsersController extends Controller
             'password' => 'required|string|min:8'
         ]);
 
-        $users = new User;
-        $users->name = $request->input('name');
-        $users->email = $request->input('email');
-        $users->unit_id = $request->input('unit_id');
-        $users->department_id = $request->input('department_id');
-        $users->password = Hash::make($request->input('password'));
-        $users->save();
+        $unit_id = $request->input('unit_id');
+        $department_id = $request->input('department_id');
+        $email = $request->input('email');
 
-        return redirect('/users')->with('message', 'User Created');
+        $user_exist = User::query()
+                      ->where('unit_id', $unit_id)
+                      ->where('department_id', $department_id)
+                      ->get();
+
+        if (sizeof($user_exist) > 0){
+            return redirect('/users/create')->with('exception', 'User Already Assigned of this Unit-Department!');
+        }else{
+            $email_exist = User::query()
+                ->where('email', $email)
+                ->get();
+
+            if (sizeof($email_exist) > 0){
+                return redirect('/users/create')->with('exception', 'Email Already Exist!');
+            }else{
+                $users = new User;
+                $users->name = $request->input('name');
+                $users->email = $email;
+                $users->unit_id = $unit_id;
+                $users->department_id = $department_id;
+                $users->password = Hash::make($request->input('password'));
+                $users->save();
+
+                return redirect('/users')->with('message', 'User Created');
+            }
+
+        }
+
     }
 
     /**

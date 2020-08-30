@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Mail\ReminderMail;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,3 +39,9 @@ Route::get('/getDocuments', 'DocumentsController@getDocuments');
 Route::get('/documentList', 'DashboardController@index')->name('dashboard');
 
 Route::get('/filterDocuments', 'DashboardController@getFilteredDocuments')->name('filterDocuments');
+
+Route::get('/renewReminderMail', 'DashboardController@renewReminderMail');
+
+Route::get('/reminderEmail', function () {
+    return new ReminderMail();
+});

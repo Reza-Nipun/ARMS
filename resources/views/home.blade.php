@@ -117,6 +117,7 @@
                             <th class="text-center">Serial</th>
                             <th class="text-center">Unit</th>
                             <th class="text-center">Dept.</th>
+                            <th class="text-center">Email</th>
                             <th class="text-center">Liable Person</th>
                             <th class="text-center">Orig. Loc.</th>
                             <th class="text-center">Doc. Loc.</th>
@@ -140,6 +141,7 @@
                                     <td class="text-center">{{ $d->serial_no }}</td>
                                     <td class="text-center">{{ $d->unit }}</td>
                                     <td class="text-center">{{ $d->department }}</td>
+                                    <td class="text-center">{{ $d->user_email }}</td>
                                     <td class="text-center">{{ $d->user }}</td>
                                     <td class="text-center">{{ $d->original_placement_location }}</td>
                                     <td class="text-center">{{ $d->original_document_location }}</td>
@@ -219,6 +221,7 @@
                         '<td class="text-center">'+(value.serial_no != null ? value.serial_no : '')+'</td>'+
                         '<td class="text-center">'+(value.unit != null ? value.unit : '')+'</td>'+
                         '<td class="text-center">'+(value.department != null ? value.department : '')+'</td>'+
+                        '<td class="text-center">'+(value.user_email != null ? value.user_email : '')+'</td>'+
                         '<td class="text-center">'+(value.user != null ? value.user : '')+'</td>'+
                         '<td class="text-center">'+(value.original_placement_location != null ? value.original_placement_location : '')+'</td>'+
                         '<td class="text-center">'+(value.original_document_location != null ? value.original_document_location : '')+'</td>'+
