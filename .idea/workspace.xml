@@ -53,7 +53,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ReminderMail.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ReminderMail.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Mail/ReminderMail.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="104">
@@ -67,7 +67,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="reminder.blade.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="reminder.blade.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/views/emails/reminder.blade.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="289">
@@ -488,12 +488,12 @@
       <workItem from="1598410779770" duration="243000" />
       <workItem from="1598421940477" duration="1233000" />
       <workItem from="1598498466581" duration="1266000" />
-      <workItem from="1598758025671" duration="19272000" />
+      <workItem from="1598758025671" duration="19372000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="258634000" />
+    <option name="totallyTimeSpent" value="258734000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -903,16 +903,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/emails/reminder.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" column="46" lean-forward="true" selection-start-line="17" selection-start-column="46" selection-end-line="17" selection-end-column="46" />
-          <folding>
-            <element signature="e#166#221#0#HTML" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Mail/ReminderMail.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="104">
@@ -921,6 +911,16 @@
             <element signature="e#28#57#0#PHP" expanded="true" />
             <marker date="1598779193100" expanded="true" signature="533:1578" ph="SELECT docum... documents" />
             <marker date="1598779193100" expanded="true" signature="533:1791" ph="SELECT docum... documents" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/emails/reminder.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" column="46" lean-forward="true" selection-start-line="17" selection-start-column="46" selection-end-line="17" selection-end-column="46" />
+          <folding>
+            <element signature="e#166#221#0#HTML" expanded="true" />
           </folding>
         </state>
       </provider>
